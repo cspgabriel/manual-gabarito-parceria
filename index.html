@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Gabarito - HotéisRIO</title>
+    <!-- Montserrat & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary: #004691;
+            --secondary: #00AEEF;
+            --dark: #001e4d;
+            --light-blue: #f0f7ff;
+            --white: #ffffff;
+            --text: #333333;
+            --glass: rgba(255, 255, 255, 0.9);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        /* --- Layout --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header --- */
+        header {
+            background: var(--white);
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 60px; /* Ajustado para melhor visibilidade da nova logo */
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-download {
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-download:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        /* --- Hero --- */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(32px, 5vw, 64px);
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* --- Sections --- */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 40px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--light-blue);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid #e1e8f0;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 70, 145, 0.1);
+        }
+
+        .card h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: 900;
+        }
+
+        /* --- Medidas Table --- */
+        .medidas-container {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .medidas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .medida-item {
+            padding: 20px;
+            background: #fdfdfd;
+            border-left: 4px solid var(--secondary);
+            border-radius: 8px;
+        }
+
+        .medida-item strong {
+            display: block;
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .medida-item span {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        footer img {
+            height: 50px;
+            margin-bottom: 20px;
+        }
+
+        /* --- PDF Optimization --- */
+        @media print {
+            .btn-download { display: none; }
+            header { position: relative; }
+            .hero { padding: 50px 0; background: var(--primary) !important; color: white !important; }
+            section { padding: 40px 0; page-break-inside: avoid; }
+            .card { background: #f0f7ff !important; border: 1px solid #ccc !important; }
+        }
+
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; gap: 20px; }
+            .hero { padding: 60px 0; }
+        }
+    </style>
+</head>
+<body id="manual-content">
+
+    <header>
+        <div class="container header-content">
+            <img src="https://abihrj.com.br/wp-content/uploads/2026/04/Logo-HoteisRIO-Azul-Fundo-Transparente-5.webp" alt="HotéisRIO" class="logo">
+            <div class="nav-links">
+                <button onclick="generatePDF()" class="btn-download">Baixar Manual (PDF)</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <p style="text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 700;">Manual de Divulgação</p>
+            <h1>Canais de<br>Divulgação</h1>
+            <p>O guia oficial de medidas e formatos para comunicação com os hotéis associados ao HotéisRIO.</p>
+        </div>
+    </section>
+
+    <main class="container">
+        
+        <section id="portal">
+            <h2 class="section-title">Matéria no Site / Portal</h2>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>Conteúdo Editorial</h3>
+                    <ul>
+                        <li>Textos com hiperlinks</li>
+                        <li>Videos na matéria</li>
+                        <li>Galeria de fotos disponível</li>
+                        <li>Frequência: 1 matéria por semana</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Exposição Visual</h3>
+                    <ul>
+                        <li>Exposição no portal sindhoteisrj.com.br e abihrj.com.br</li>
+                        <li>Divulgação para toda a base hoteleira</li>
+                        <li>Conteúdo focado no benefício oferecido </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="banner">
+            <h2 class="section-title">Banners no Site</h2>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>Formatos e Regras</h3>
+                    <ul>
+                        <li>Formatos aceitos: .PNG, .JPG ou .GIF</li>
+                        <li>Inclusão de hiperlink direto</li>
+                        <li>Exposição fixa enquanto durar o convenio</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Posicionamento</h3>
+                    <ul>
+                        <li>Banners em áreas estratégicas do portal</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="email">
+            <h2 class="section-title">E-mail Marketing</h2>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>Formatos e Regras</h3>
+                    <ul>
+                        <li>Base de dados segmentada de hotéis</li>
+                        <li>Peça pronta ou HTML otimizado</li>
+                        <li>Assunto focado no benefício oferecido</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Boletim Informativo Mensal</h3>
+                    <ul>
+                        <li>Inserção da logomarca da empresa no Boletim Informativo</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="redes">
+            <h2 class="section-title">Redes Sociais</h2>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>Instagram</h3>
+                    <ul>
+                        <li>Storys à vontade (marcando @hoteisrio, @sindhoteisrio e @abih.rio)</li>
+                        <li>1 Post Collab no feed (podendo marcar @hoteisrio, @sindhoteisrio e @abih.rio)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>LinkedIn e WhatsApp</h3>
+                    <ul>
+                        <li>1 Post no LinkedIn</li>
+                        <li>Divulgação em grupos de WhatsApp (1 post)</li>
+                        <li>Alcance direto com decisores</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="medidas">
+            <h2 class="section-title">Tabela de Medidas</h2>
+            <div class="medidas-container">
+                <div class="medidas-grid">
+                    <div class="medida-item">
+                        <strong>Instagram</strong>
+                        <span>1080 x 1080px (Quadrado)<br>1080 x 1280px (Retrato)</span>
+                    </div>
+                    <div class="medida-item">
+                        <strong>LinkedIn</strong>
+                        <span>1080 x 1080px</span>
+                    </div>
+                    <div class="medida-item">
+                        <strong>WhatsApp</strong>
+                        <span>728x90px | 468x90px | 1080x1080px</span>
+                    </div>
+                    <div class="medida-item">
+                        <strong>Website (Banner)</strong>
+                        <span>1080x1080px (Capa) | 728x90px | 468x90px</span>
+                    </div>
+                    <div class="medida-item" style="grid-column: 1 / -1; border-left-color: var(--primary);">
+                        <strong>E-mail Marketing</strong>
+                        <span>728x90px | 468x90px | 336x280px | 300x250px | 750x600px | 750x300px | 1080x1080px</span>
+                    </div>
+                </div>
+                <p style="margin-top: 30px; font-size: 12px; color: #999; text-align: center;">Formatos suportados: PNG, JPG, JPEG ou GIF (Máx. 2MB)</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <img src="https://abihrj.com.br/wp-content/uploads/2026/04/Logo-HoteisRIO-Branca-Fundo-Transparente-1-7.webp" alt="HotéisRIO">
+            <p>© 2026 HotéisRIO - Sindicato dos Meios de Hospedagem do Rio de Janeiro</p>
+            <p style="font-size: 12px; opacity: 0.5; margin-top: 10px;">Informações baseadas no Manual Oficial de Divulgação para Parceiros.</p>
+        </div>
+    </footer>
+
+    <script>
+        function generatePDF() {
+            const element = document.getElementById('manual-content');
+            const opt = {
+                margin: 0,
+                filename: 'Manual_Parceiros_HoteisRIO.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            const btn = document.querySelector('.btn-download');
+            btn.innerText = "Gerando...";
+            btn.disabled = true;
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                btn.innerText = "Baixar Manual (PDF)";
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
