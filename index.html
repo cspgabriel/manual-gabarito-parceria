@@ -17,6 +17,7 @@
             --text: #333333;
             --glass: rgba(255, 255, 255, 0.9);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-blue: linear-gradient(135deg, #004691 0%, #00AEEF 100%);
         }
 
         * {
@@ -35,6 +36,80 @@
             background-color: var(--white);
             color: var(--text);
             line-height: 1.6;
+            display: flex;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--gradient-blue);
+            color: white;
+            padding: 30px 20px;
+            overflow-y: auto;
+            z-index: 999;
+        }
+
+        .sidebar-logo {
+            height: 60px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-logo img {
+            height: 100%;
+            width: auto;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .sidebar-submenu {
+            list-style: none;
+            display: none;
+            margin-top: 8px;
+            padding-left: 15px;
+        }
+
+        .sidebar-submenu.active {
+            display: block;
+        }
+
+        .sidebar-submenu li a {
+            font-size: 13px;
+            padding: 8px 12px;
+            opacity: 0.9;
+        }
+
+        /* --- Main Content --- */
+        main {
+            margin-left: 280px;
+            width: calc(100% - 280px);
         }
         /* --- Layout --- */
         .container {
@@ -45,9 +120,9 @@
 
         /* --- Header --- */
         header {
-            background: var(--white);
+            background: var(--gradient-blue);
             padding: 20px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: none;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -59,8 +134,14 @@
             align-items: center;
         }
 
-        .logo {
-            height: 60px; /* Ajustado para melhor visibilidade da nova logo */
+        .logo-header {
+            height: 60px;
+        }
+
+        .logo-header img {
+            height: 100%;
+            width: auto;
+            filter: brightness(0) invert(1);
         }
 
         .nav-links {
@@ -228,7 +309,36 @@
             .card { background: #f0f7ff !important; border: 1px solid #ccc !important; }
         }
 
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            main {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+            }
+        }
+
         @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 20px;
+            }
+
+            main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .sidebar-nav {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
             .header-content { flex-direction: column; gap: 20px; }
             .hero { padding: 60px 0; }
         }
@@ -236,11 +346,34 @@
 </head>
 <body id="manual-content">
 
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="https://abihrj.com.br/wp-content/uploads/2026/04/Logo-HoteisRIO-Branca-Fundo-Transparente-1-7.webp" alt="HotéisRIO">
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="#portal">📰 Matéria no Site</a></li>
+            <li><a href="#banner">🎨 Banners</a></li>
+            <li><a href="#email">✉️ E-mail Marketing</a></li>
+            <li>
+                <a href="javascript:void(0)" onclick="toggleSubmenu(event)">📱 Redes Sociais</a>
+                <ul class="sidebar-submenu">
+                    <li><a href="#instagram">Instagram</a></li>
+                    <li><a href="#linkedin">LinkedIn</a></li>
+                    <li><a href="#whatsapp">WhatsApp</a></li>
+                </ul>
+            </li>
+            <li><a href="#fornecedores">🤝 Portal de Fornecedores</a></li>
+            <li><a href="#medidas">📏 Tabela de Medidas</a></li>
+            <li style="margin-top: 30px;"><button onclick="generatePDF()" class="btn-download" style="width: 100%; text-align: center;">📥 Baixar Manual</button></li>
+        </ul>
+    </aside>
+
     <header>
         <div class="container header-content">
-            <img src="https://abihrj.com.br/wp-content/uploads/2026/04/Logo-HoteisRIO-Azul-Fundo-Transparente-5.webp" alt="HotéisRIO" class="logo">
+            <img src="https://abihrj.com.br/wp-content/uploads/2026/04/Logo-HoteisRIO-Branca-Fundo-Transparente-1-7.webp" alt="HotéisRIO" class="logo-header">
             <div class="nav-links">
-                <button onclick="generatePDF()" class="btn-download">Baixar Manual (PDF)</button>
+                <button onclick="generatePDF()" class="btn-download">📥 Baixar Manual (PDF)</button>
             </div>
         </div>
     </header>
@@ -320,20 +453,54 @@
 
         <section id="redes">
             <h2 class="section-title">Redes Sociais</h2>
+
             <div class="grid-cards">
-                <div class="card">
-                    <h3>Instagram</h3>
+                <div class="card" id="instagram">
+                    <h3>📸 Instagram</h3>
                     <ul>
                         <li>Storys à vontade (marcando @hoteisrio, @sindhoteisrio e @abih.rio)</li>
                         <li>1 Post Collab no feed (podendo marcar @hoteisrio, @sindhoteisrio e @abih.rio)</li>
                     </ul>
                 </div>
-                <div class="card">
-                    <h3>LinkedIn e WhatsApp</h3>
+
+                <div class="card" id="linkedin">
+                    <h3>💼 LinkedIn</h3>
                     <ul>
                         <li>1 Post no LinkedIn</li>
-                        <li>Divulgação em grupos de WhatsApp (1 post)</li>
                         <li>Alcance direto com decisores</li>
+                        <li>Impacto em profissionais da hotelaria</li>
+                    </ul>
+                </div>
+
+                <div class="card" id="whatsapp">
+                    <h3>💬 WhatsApp</h3>
+                    <ul>
+                        <li>Divulgação em grupos de WhatsApp com Hoteleiros dos Hotéis da Cidade do RJ e do Interior do Rio (1 post)</li>
+                        <li>Alcance direto com gestores hoteleiros</li>
+                        <li>Comunicação segmentada por região</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="fornecedores">
+            <h2 class="section-title">Portal de Fornecedores</h2>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>🤝 Sobre o Portal</h3>
+                    <ul>
+                        <li>Exposição para fornecedores de produtos e serviços hoteleiros</li>
+                        <li>Base segmentada de hotéis associados</li>
+                        <li>Visibilidade junto a gestores e tomadores de decisão</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📋 Regras de Participação</h3>
+                    <ul>
+                        <li>Apresentação de portfolio de serviços</li>
+                        <li>Logomarca e descrição da empresa</li>
+                        <li>Links diretos para sites e contato</li>
+                        <li>Atualização periódica de ofertas</li>
                     </ul>
                 </div>
             </div>
@@ -375,10 +542,17 @@
             <img src="https://abihrj.com.br/wp-content/uploads/2026/04/Logo-HoteisRIO-Branca-Fundo-Transparente-1-7.webp" alt="HotéisRIO">
             <p>© 2026 HotéisRIO - Sindicato dos Meios de Hospedagem do Rio de Janeiro</p>
             <p style="font-size: 12px; opacity: 0.5; margin-top: 10px;">Informações baseadas no Manual Oficial de Divulgação para Parceiros.</p>
+            <p style="font-size: 12px; opacity: 0.5; margin-top: 5px;">Em parceria com ABIH-RJ</p>
         </div>
     </footer>
 
     <script>
+        function toggleSubmenu(event) {
+            event.preventDefault();
+            const submenu = event.target.nextElementSibling;
+            submenu.classList.toggle('active');
+        }
+
         function generatePDF() {
             const element = document.getElementById('manual-content');
             const opt = {
@@ -394,7 +568,7 @@
             btn.disabled = true;
 
             html2pdf().set(opt).from(element).save().then(() => {
-                btn.innerText = "Baixar Manual (PDF)";
+                btn.innerText = "📥 Baixar Manual (PDF)";
                 btn.disabled = false;
             });
         }
